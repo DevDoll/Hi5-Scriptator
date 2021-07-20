@@ -48,7 +48,7 @@ def getacc():
 
 def msgext(mn):
     mlist = list()
-    with open('messages/cashapp-%s-reply.txt'%mn) as dfile:
+    with open('%s/messages/cashapp-%s-reply.txt'% (mdir ,mn)) as dfile:
         for mline in dfile:
             uline = mline.replace('you', 'u')
             udoline = uline.rstrip() + "".join('.')
@@ -215,7 +215,7 @@ def sender():
         headers = {'User-Agent': '%s'%useragent}
         r = requests.get('https://secure.hi5.com/api/?method=tagged.im.getConversation&size=s&size2=m&uid=%s&count=100&isPhotoCommentSupported=true&application_id=user'%usrid, cookies=cookies, headers=headers, proxies=proxy, timeout=30)
         reply = json.loads(r.text)
-
+        print(reply)
         replys = reply['result']
         container = replys['items']
         count = 0
@@ -231,8 +231,9 @@ def sender():
                 objec = {'uid': '%s'%usrid, 'message': '%s'% keywords, 'type': '1'}
                 time.sleep(2)
                 try:
-                    send = requests.post('https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user', data=objec, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
+                    send = requests.post('https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user', data=objec, headers=headers, cookies=cookies)
                     fmsg = json.loads(send.text)
+                    print(fmsg)
                     results = fmsg['result']
 
                     if "code" not in results:
@@ -293,6 +294,8 @@ def random_proxy(proxies):
 
 osystem = "M"
 devicename = 'macbook'
+madir = open('config.txt', 'r').read().splitlines()
+mdir = random.choice(madir)
 
 accr = int(input('How Many Times Reeat the account:  '))
 gender = input('do you want them (F)emale or (M)ale:  ')
@@ -304,26 +307,12 @@ times = int(input('how many times do you wanna repeat the messages:  '))
 entimes = times - 1
 cooldwn = int(input('How many minutes between each account:  ')) * 60
 
+# adding backround touches
 speeddeter = 'L'
 DropboxFolder = '/Users/%s/Dropbox' % devicename
-nourfold = '/Users/%s/devdoll/Hi5/Messaging/users' % devicename
+nourfold = '%s/Messaging/users'%mdir
+wt = 0
 
-# adding backround touches
-if osystem == 'W':
-    DropboxFolder = 'C:/Users/%s/Dropbox'%devicename
-elif osystem == 'L':
-    DropboxFolder = '/home/%s/Dropbox'%devicename
-elif osystem == 'M':
-    if speeddeter == 'L':
-        nourfold = '/Users/%s/devdoll/Hi5/Messaging/users'%devicename
-        wt = 0
-    elif speeddeter == 'D':
-        DropboxFolder = '/Users/%s/Dropbox'%devicename
-        nourfold = '/Users/%s/devdoll/Hi5/Messaging/users'%devicename
-        wt = 0
-elif osystem == "D"
-    nourfold == 'root/Bots/Hi5/Messaging/users'
-    wt = 0
 
 
 
