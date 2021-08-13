@@ -288,6 +288,7 @@ def replier():
 
             except Exception as e: print(e)
 
+            # sending 2nd message:
             if count == 1 and counth >= 1 and inusers.count(suid) > 0:
                 print('user is intrested')
                 # Chossing messages
@@ -296,7 +297,7 @@ def replier():
                 randext = random.choice(ext)
                 blk = '%s' % randdomain
                 second = random.choice(secondreply)
-                print('picked a random domainname')
+                print('user engaged')
 
 
                 if linklimit < linkperround:
@@ -316,25 +317,36 @@ def replier():
                     firstrep.append(second)
                     linklimit = + 1
 
-                    # Sending the landing page
-                    print('Using as landing page: %s'%blk)
-                    blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
-                    send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
-                    se11 = json.loads(send11.text)
-                    domainsent.append(blk)
-                    #print(se11)
+                    try:
+                        if lp_after_msg == 2:
+                            # Sending the landing page
+                            randdomain = random.choice(domainnames)
+                            blk = '%s' % randdomain
+                            print('domain is after 2nd message, picked a random domainname')
 
-                    # Modification of domain
-                    if dmngener == 'yes':
-                        dmnulck = domainunlck
-                        three = {'uid': '%s' % uid, 'message': '%s'%dmnulck, 'type': '1'}
-                        send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
-                        se3 = json.loads(send3.text)
-                        dmnunlkrep.append(dmnulck)
-                    else:
-                        print('Script is using normal domains strategy')
-                    #print(se3)
+                            print('Using as landing page: %s'%blk)
+                            blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
+                            send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
+                            se11 = json.loads(send11.text)
+                            domainsent.append(blk)
+                            #print(se11)
 
+                            # Modification of domain
+                            if dmngener == 'yes':
+                                dmnulck = domainunlck
+                                three = {'uid': '%s' % uid, 'message': '%s'%dmnulck, 'type': '1'}
+                                send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
+                                se3 = json.loads(send3.text)
+                                dmnunlkrep.append(dmnulck)
+                            else:
+                                print('Script is using normal domains strategy')
+                        else:
+                            print(lp_after_msg)
+                            print('LP is not after 2nd message')
+
+                    except Exception as e:
+                        print(e)
+                        print('lp is not after 2nd message, its after %s' % lp_after_msg)
                     #
                     # time.sleep(random.uniform(1, 3))
                     # lppb = {'uid': '%s' % uid, 'message': '%s' % gif, 'type': '9'}
@@ -401,6 +413,7 @@ def replier():
                 se1 = json.loads(send1.text)
                 # print(se1)
 
+            # sending 3rd message:
             elif count == 2 and counth >= 2 and inusers.count(suid) > 0:
                 # getting response
                 oldp += 1
@@ -417,6 +430,38 @@ def replier():
                 send2 = requests.post(surl, data=tow, headers=headers, cookies=cookies, proxies=proxy)
                 se2 = json.loads(send2.text)
                 secondrep.append(third)
+
+                try:
+                    if lp_after_msg == 3:
+                        # Sending the landing page
+                        randdomain = random.choice(domainnames)
+                        blk = '%s' % randdomain
+                        print('domain is after 3rd message, picked a random domainname')
+                        print('Using as landing page: %s' % blk)
+                        blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
+                        send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
+                        se11 = json.loads(send11.text)
+                        domainsent.append(blk)
+                        # print(se11)
+
+                        # Modification of domain
+                        if dmngener == 'yes':
+                            dmnulck = domainunlck
+                            three = {'uid': '%s' % uid, 'message': '%s' % dmnulck, 'type': '1'}
+                            send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
+                            se3 = json.loads(send3.text)
+                            dmnunlkrep.append(dmnulck)
+                        else:
+                            print('Script is using normal domains strategy')
+
+                    else:
+                        print(lp_after_msg)
+                        print('LP is not after 3rd message')
+
+                except Exception as e:
+                    print(e)
+                    print('lp is not after 3rd message, its after %s' % lp_after_msg)
+
             elif count == 2 and counth >= 2 and inusers.count(suid) == 0:
                 print('user is not intrested')
                 # marking the message as read
@@ -425,6 +470,7 @@ def replier():
                 markread = requests.post(rurl, data=rcontent, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
                 unreadreq = json.loads(markread.text)
 
+            # sending 4th message:
 
             elif count == 3 and counth >= 2 and inusers.count(suid) > 0:
                 # getting response
@@ -443,6 +489,38 @@ def replier():
                 send1 = requests.post(url, data=one, headers=headers, cookies=cookies, timeout=30)
                 json.loads(send1.text)
                 thirdrep.append(forth)
+
+                try:
+                    if lp_after_msg == 4:
+                        # Sending the landing page
+                        randdomain = random.choice(domainnames)
+                        blk = '%s' % randdomain
+                        print('domain is after 4th message, picked a random domainname')
+
+                        print('Using as landing page: %s' % blk)
+                        blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
+                        send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
+                        se11 = json.loads(send11.text)
+                        domainsent.append(blk)
+                        # print(se11)
+
+                        # Modification of domain
+                        if dmngener == 'yes':
+                            dmnulck = domainunlck
+                            three = {'uid': '%s' % uid, 'message': '%s' % dmnulck, 'type': '1'}
+                            send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
+                            se3 = json.loads(send3.text)
+                            dmnunlkrep.append(dmnulck)
+                        else:
+                            print('Script is using normal domains strategy')
+                    else:
+                        print('LP is not after 4th message')
+
+                except Exception as e:
+                    print(e)
+                    print('lp is not after 4th message, its after %s' % lp_after_msg)
+
+
             elif count == 3 and counth >= 2 and inusers.count(suid) == 0:
                 print('user is not intrested')
                 # marking the message as read
@@ -451,7 +529,7 @@ def replier():
                 markread = requests.post(rurl, data=rcontent, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
                 unreadreq = json.loads(markread.text)
 
-
+            # sending 5th message:
             elif count == 4 and counth >= 2 and inusers.count(suid) > 0:
                 # getting response
                 oldp += 1
@@ -463,12 +541,46 @@ def replier():
                 markread = requests.post(rurl, data=rcontent, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
                 json.loads(markread.text)
 
-                print('Asking the user to follow the instructions...')
-                url = 'https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user'
-                one = {'uid': '%s' % uid, 'message': '%s' % fifth, 'type': '1'}
-                send1 = requests.post(url, data=one, headers=headers, cookies=cookies, timeout=30)
-                json.loads(send1.text)
-                forthrep.append(fifth)
+                if lp_after_msg >= 4:
+                    print('maximum follow up reached, skipipng...')
+                else:
+                    print('Asking the user to follow the instructions...')
+                    url = 'https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user'
+                    one = {'uid': '%s' % uid, 'message': '%s' % fifth, 'type': '1'}
+                    send1 = requests.post(url, data=one, headers=headers, cookies=cookies, timeout=30)
+                    json.loads(send1.text)
+                    forthrep.append(fifth)
+
+                    try:
+                        if lp_after_msg == 5:
+                            # Sending the landing page
+                            randdomain = random.choice(domainnames)
+                            blk = '%s' % randdomain
+                            print('domain is after 5th message, picked a random domainname')
+
+                            print('Using as landing page: %s' % blk)
+                            blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
+                            send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
+                            se11 = json.loads(send11.text)
+                            domainsent.append(blk)
+                            # print(se11)
+
+                            # Modification of domain
+                            if dmngener == 'yes':
+                                dmnulck = domainunlck
+                                three = {'uid': '%s' % uid, 'message': '%s' % dmnulck, 'type': '1'}
+                                send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
+                                se3 = json.loads(send3.text)
+                                dmnunlkrep.append(dmnulck)
+                            else:
+                                print('Script is using normal domains strategy')
+
+                        else:
+                            print('LP is not after 5th message')
+
+                    except Exception as e:
+                        print(e)
+                        print('lp is not after 5th message, its after %s' % lp_after_msg)
 
             elif count == 4 and counth >=2 and rejectusrs.count(suid) > 0:
                 conv +=1
@@ -504,7 +616,7 @@ def replier():
                 markread = requests.post(rurl, data=rcontent, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
                 unreadreq = json.loads(markread.text)
 
-
+            # sending 6th message:
             elif count == 5 and counth >=2 and inusers.count(suid) > 0:
                 # getting response
                 oldp += 1
@@ -516,12 +628,47 @@ def replier():
                 markread = requests.post(rurl, data=rcontent, headers=headers, cookies=cookies, proxies=proxy, timeout=30)
                 json.loads(markread.text)
 
-                print('Retreating from the user...')
-                url = 'https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user'
-                one = {'uid': '%s' % uid, 'message': '%s'%sisxth, 'type': '1'}
-                send1 = requests.post(url, data=one, headers=headers, cookies=cookies)
-                json.loads(send1.text)
-                fifthrep.append(sisxth)
+                if lp_after_msg <= 5:
+                    print('maximum follow up reached, skipping...')
+                else:
+                    print('Retreating from the user...')
+                    url = 'https://secure.hi5.com/api/?method=tagged.im.send&platform=android&application_id=user'
+                    one = {'uid': '%s' % uid, 'message': '%s'%sisxth, 'type': '1'}
+                    send1 = requests.post(url, data=one, headers=headers, cookies=cookies)
+                    json.loads(send1.text)
+                    fifthrep.append(sisxth)
+
+                    try:
+                        if lp_after_msg == 6:
+                            # Sending the landing page
+                            randdomain = random.choice(domainnames)
+                            blk = '%s' % randdomain
+                            print('domain is after 6th message, picked a random domainname')
+                            print('Using as landing page: %s' % blk)
+                            blcav = {'uid': '%s' % uid, 'message': '%s' % blk, 'type': '1'}
+                            send11 = requests.post(surl, data=blcav, headers=headers, cookies=cookies, proxies=proxy)
+                            se11 = json.loads(send11.text)
+                            domainsent.append(blk)
+                            # print(se11)
+
+                            # Modification of domain
+                            if dmngener == 'yes':
+                                dmnulck = domainunlck
+                                three = {'uid': '%s' % uid, 'message': '%s' % dmnulck, 'type': '1'}
+                                send3 = requests.post(surl, data=three, headers=headers, cookies=cookies)
+                                se3 = json.loads(send3.text)
+                                dmnunlkrep.append(dmnulck)
+                            else:
+                                print('Script is using normal domains strategy')
+
+                        else:
+                            print('LP is not after 7th message')
+
+                    except Exception as e:
+                        print(e)
+                        print('lp is not after 6th message, its after %s' % lp_after_msg)
+
+
             elif count == 5 and counth >= 2 and inusers.count(suid) == 0:
                 print('user is not intrested')
                 # marking the message as read
@@ -531,6 +678,7 @@ def replier():
                 unreadreq = json.loads(markread.text)
 
 
+            # sending 7th message:
             elif count == 6 and counth >=4 and inusers.count(suid) > 0:
                 # getting response
 
@@ -567,23 +715,48 @@ def replier():
         print('%s New Person is not intrested'% notin)
         print('%s Person has accepted after rejecting'% conv)
 
+#Reading Config:
+
+def parsel(line):
+    delim = line.find(':')
+    return line[delim+1:].strip()
+
+def configer(config_string):
+    try:
+        account_loop = int(parsel(config_string[0]))
+        domain_bypass = parsel(config_string[7])
+        inbox_timebreak = int(parsel(config_string[8]))
+        inbox_waves = int(parsel(config_string[9]))
+        account_timebreak = int(parsel(config_string[5]))
+        follow_up = parsel(config_string[10])
+        lp_after_msg = int(parsel(config_string[11]))
+        return account_loop, domain_bypass, inbox_timebreak, inbox_waves, account_timebreak, follow_up, lp_after_msg
+    except Exception as e: print(e)
+
+with open("config.txt") as config:
+    config_values = config.readlines()
+
+account_loop, domain_bypass, inbox_timebreak, inbox_waves, account_timebreak, follow_up, lp_after_msg = configer(config_values)
+
+if lp_after_msg == 3:
+    print('message after 3rd message')
 
 # collecting inputs:
 uaf = open('config/user-agents.txt', 'r').read().splitlines()
 # period = int(input('For how many minutes do you want to the Bot to run:  '))
-accr = int(input('How Many Times Reeat the account:  '))
-dmngener = input('Activate Domain Bypass: ')
-cool = int(input('How many minutes between each Inbox Check for each account: ')) * 60
-times = int(input('how many times do you wanna repeat: '))
+accr = account_loop     #int(input('How Many Times Reeat the account:  '))
+dmngener = domain_bypass     #input('Activate Domain Bypass: ')
+cool = inbox_timebreak * 60     #int(input('How many minutes between each Inbox Check for each account: ')) * 60
+times = inbox_waves    #int(input('how many times do you wanna repeat: '))
 wrkngtime = cool * times
 #linkcount = int(input('how many links do you wanna send in each %s hours: '%wrkngtime))
 linkcount = int(50)
-cooldwn = int(input('How many minutes between every account:  ')) * 60
+cooldwn = account_timebreak * 60      #int(input('How many minutes between every account:  ')) * 60
 niche = 'cashapp'
 
 intrested = ['sure', 'yes', 'yeah', 'ok', 'yea', 'ofcourse', 'for sure', 'Ok', 'Yes', 'Sure', 'Yeah'
             , 'Yea', 'Ofcourse', 'okey', 'website', 'link', 'why not', 'cashapp', 'yup', 'yhup', 'k'
-            , 'yea', 'paypal', 'what', 'how', 'tell', 'what', 'legit', 'really', 'send', 'why']
+            , 'yea', 'paypal', 'what', 'how', 'tell', 'what', 'legit', 'really', 'send', 'why', 'yep']
 
 notintrested = ['no', 'nah', "i'm good", 'not intrested', 'naw', 'scam', 'shit', 'bye', 'not intrested', 'bs', "it doesn't work"]
 

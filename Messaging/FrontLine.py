@@ -48,7 +48,7 @@ def getacc():
 
 def msgext(mn):
     mlist = list()
-    with open('%s/messages/cashapp-%s-reply.txt'% (mdir ,mn)) as dfile:
+    with open('messages/cashapp-%s-reply.txt'% mn) as dfile:
         for mline in dfile:
             uline = mline.replace('you', 'u')
             udoline = uline.rstrip() + "".join('.')
@@ -185,7 +185,7 @@ def extractor(age):
  # Remove reached users
 def rechecker():
 
-    with open('%s/%s-reached-users.txt'%(nourfold,niche), 'r+') as source:
+    with open('%s/%s-reached-users.txt'%(nourfold2,niche), 'r+') as source:
         filter_lines = source.readlines()
 
     with open('bot-users/%s-active-fresh-users.txt'%email, 'r') as f:
@@ -239,7 +239,7 @@ def sender():
                     if "code" not in results:
                         print(fmsg)
                         print('Message Sent!\n')
-                        outf = open("%s/%s-reached-users.txt"%(nourfold, niche), "a")
+                        outf = open("bot-users/%s-reached-users.txt"% niche, "a")
                         outf.write(usrid)
                         time.sleep(wt)
                         #outi = open('bot-users/%s-reached-users.txt' % email, 'a')
@@ -287,6 +287,27 @@ def random_proxy(proxies):
   return random.choice(proxies)
 
 
+#Reading Config:
+
+def parsel(line):
+    delim = line.find(':')
+    return line[delim+1:].strip()
+
+def configer(config_string):
+    try:
+        account_loop = int(parsel(config_string[0]))
+        gender = parsel(config_string[1])
+        messages_waves = int(parsel(config_string[2]))
+        waves_timebreak = int(parsel(config_string[3]))
+        waves_count = int(parsel(config_string[4]))
+        account_timebreak = int(parsel(config_string[5]))
+        return account_loop, gender, messages_waves, waves_timebreak, waves_count, account_timebreak
+    except Exception as e: print(e)
+
+with open("config.txt") as config:
+    config_values = config.readlines()
+
+account_loop, tgender, messages_waves, waves_timebreak, waves_count, account_timebreak = configer(config_values)
 
 # collecting inputs:
 
@@ -297,20 +318,21 @@ devicename = 'macbook'
 madir = open('config.txt', 'r').read().splitlines()
 mdir = random.choice(madir)
 
-accr = int(input('How Many Times Reeat the account:  '))
-gender = input('do you want them (F)emale or (M)ale:  ')
+accr = account_loop     #int(input('How Many Times Reeat the account:  '))
+gender = tgender   #input('do you want them (F)emale or (M)ale:  ')
 uaf = open('config/user-agents.txt', 'r').read().splitlines()
-messn = int(input('how many messages do you wanna send with each account:  '))
-col = int(input('how many minutes between every %s messages:  '%messn)) * 60
+messn = messages_waves    #int(input('how many messages do you wanna send with each account:  '))
+col = waves_timebreak * 60  #int(input('how many minutes between every %s messages:  '%messn)) * 60
 niche = 'cashapp'
-times = int(input('how many times do you wanna repeat the messages:  '))
+times = waves_count     #int(input('how many times do you wanna repeat the messages:  '))
 entimes = times - 1
-cooldwn = int(input('How many minutes between each account:  ')) * 60
+cooldwn = account_timebreak * 60      #int(input('How many minutes between each account:  ')) * 60
 
 # adding backround touches
 speeddeter = 'L'
 DropboxFolder = '/Users/%s/Dropbox' % devicename
 nourfold = '%s/Messaging/users'%mdir
+nourfold2 = 'users'
 wt = 0
 
 

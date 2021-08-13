@@ -1,1 +1,12 @@
-/Users/macbook/devdoll/hi5
+account repeatation: 3
+Gender: F
+messages waves: 40
+minutes between waves: 10
+how many waves: 5
+minutes between each account: 60
+
+activate domain bypass: no
+minutes between inbox check: 10
+how many times repeat the check: 5
+follow up: 4
+lp after message N: 3
