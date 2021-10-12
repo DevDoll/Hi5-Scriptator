@@ -195,6 +195,7 @@ def replier():
     usrs = results['items']
     linklimit = 0
     newp = 0
+    actp = 0
     oldp = 0
     notin = 0
     rejec = 0
@@ -229,7 +230,8 @@ def replier():
                 umsg = resu['html']
                 if uuid == myid:
                     count += 1
-                    print('-Script: %s'%umsg)
+                    print('\n~~~ Conversations starting now ~~~\n')
+                    print('\n-Script: %s'%umsg)
 
                 else:
                     counth += 1
@@ -248,7 +250,7 @@ def replier():
                         outm.write('%s\n'%umsg)
                         outm.close()
                     if count == 4:
-                        print('User said after Seeing the link: %s'%umsg)
+                        print('User said after link confirmation: %s'%umsg)
                         outh = open('messages/responses/after-hesitation-response.txt', 'a')
                         outh.write('%s\n'%umsg)
                         outh.close()
@@ -709,7 +711,7 @@ def replier():
         elif lastsender == myid:
             print('user didnt reply yet')
 
-        print('\n%s New Person Accepeted & has been messaged' % newp)
+        print('\n%s New Person Said yes to cashapp' % newp)
         print('%s Old Person has been messaged' % oldp)
         print('%s New Person Rejected & has been messeged'% rejec)
         print('%s New Person is not intrested'% notin)
