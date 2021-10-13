@@ -195,7 +195,6 @@ def replier():
     usrs = results['items']
     linklimit = 0
     newp = 0
-    actp = 0
     oldp = 0
     notin = 0
     rejec = 0
@@ -230,12 +229,13 @@ def replier():
                 umsg = resu['html']
                 if uuid == myid:
                     count += 1
-                    print('\n~~~ Conversations starting now ~~~\n')
-                    print('\n-Script: %s'%umsg)
+                    print('-Script: %s'%umsg)
+                    userconv(uuid, umsg)
 
                 else:
                     counth += 1
                     print('-Prospect: %s'%umsg)
+                    userconv(uuid, umsg)
                     if counth >= 1:
                         if re.compile('|'.join(intrested), re.IGNORECASE).search(umsg):
                             print('\nuser %s Accepted'%uuid)
@@ -245,12 +245,14 @@ def replier():
                             print('user rejected')
                             notintrusr.append(uuid)
                     if count == 3:
+                        userconv(uuid, umsg)
                         print('User said after Seeing the link: %s'%umsg)
                         outm = open('messages/responses/after-link-response.txt', 'a')
                         outm.write('%s\n'%umsg)
                         outm.close()
                     if count == 4:
-                        print('User said after link confirmation: %s'%umsg)
+                        userconv(uuid, umsg)
+                        print('User said after Seeing the link: %s'%umsg)
                         outh = open('messages/responses/after-hesitation-response.txt', 'a')
                         outh.write('%s\n'%umsg)
                         outh.close()
@@ -711,7 +713,7 @@ def replier():
         elif lastsender == myid:
             print('user didnt reply yet')
 
-        print('\n%s New Person Said yes to cashapp' % newp)
+        print('\n%s New Person Accepeted & has been messaged' % newp)
         print('%s Old Person has been messaged' % oldp)
         print('%s New Person Rejected & has been messeged'% rejec)
         print('%s New Person is not intrested'% notin)
@@ -734,6 +736,52 @@ def configer(config_string):
         lp_after_msg = int(parsel(config_string[11]))
         return account_loop, domain_bypass, inbox_timebreak, inbox_waves, account_timebreak, follow_up, lp_after_msg
     except Exception as e: print(e)
+
+# saving conversation
+
+def userconv(uuid, umsg):
+    with open('messages/conversation.txt', 'r') as myFile:
+        found = 0
+        for num, line in enumerate(myFile, 1):
+            try:
+                if uuid in line:
+                    print('user exist at line:', num)
+                    usrnum = int(num)
+                    found = 1
+                    # Write The Messages
+                    data = myFile.readlines()
+                    try:
+                        for linet in range(0, 5):
+                            stopoint = str(data[linet])
+                            if '-' in stopoint:
+                                bla = int(linet + num)
+                                a_file = open("messages/conversation.txt", "r")
+                                list_of_lines = a_file.readlines()
+                                fline = int(bla)
+                                list_of_lines[fline] = "%s\n-\n" % umsg
+
+                                a_file = open("messages/conversation.txt", "w")
+                                a_file.writelines(list_of_lines)
+                                a_file.close()
+                                break
+                    except Exception as e:
+                        print(e)
+
+                elif uuid not in line and found != 1:
+                    num = None
+                    found = 0
+            except Exception as e:
+                print(e)
+        if num is None:
+            print('User Does Not Exist In The Conversation')
+            with open('messages/conversation.txt', 'a') as addfile:
+                addfile.write('\n%s' % uuid)
+                print('user doesnt exist, his been added')
+                # Write The Messages
+                addfile.write('\n%s\n-\n-\n-\n-\n-\n-' % umsg)
+                addfile.close()
+        myFile.close()
+
 
 with open("config.txt") as config:
     config_values = config.readlines()
