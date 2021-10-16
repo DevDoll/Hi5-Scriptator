@@ -1,3 +1,5 @@
+import traceback
+
 import requests
 import json
 import random
@@ -230,12 +232,20 @@ def replier():
                 if uuid == myid:
                     count += 1
                     print('-Script: %s'%umsg)
-                    userconv(uuid, umsg)
+                    try:
+                        who = 'Script: '
+                        userconv(uuid, umsg, who)
+                    except Exception:
+                        print(traceback.format_exc())
 
                 else:
                     counth += 1
                     print('-Prospect: %s'%umsg)
-                    userconv(uuid, umsg)
+                    try:
+                        who = 'Prospect: '
+                        userconv(uuid, umsg, who)
+                    except Exception:
+                        print(traceback.format_exc())
                     if counth >= 1:
                         if re.compile('|'.join(intrested), re.IGNORECASE).search(umsg):
                             print('\nuser %s Accepted'%uuid)
@@ -245,13 +255,15 @@ def replier():
                             print('user rejected')
                             notintrusr.append(uuid)
                     if count == 3:
-                        userconv(uuid, umsg)
+                        who = 'Prospect: '
+                        userconv(uuid, umsg, who)
                         print('User said after Seeing the link: %s'%umsg)
                         outm = open('messages/responses/after-link-response.txt', 'a')
                         outm.write('%s\n'%umsg)
                         outm.close()
                     if count == 4:
-                        userconv(uuid, umsg)
+                        who = 'Prospect: '
+                        userconv(uuid, umsg, who)
                         print('User said after Seeing the link: %s'%umsg)
                         outh = open('messages/responses/after-hesitation-response.txt', 'a')
                         outh.write('%s\n'%umsg)
@@ -739,7 +751,7 @@ def configer(config_string):
 
 # saving conversation
 
-def userconv(uuid, umsg):
+def userconv(uuid, umsg, who):
     with open('messages/conversation.txt', 'r') as myFile:
         found = 0
         for num, line in enumerate(myFile, 1):
@@ -758,7 +770,7 @@ def userconv(uuid, umsg):
                                 a_file = open("messages/conversation.txt", "r")
                                 list_of_lines = a_file.readlines()
                                 fline = int(bla)
-                                list_of_lines[fline] = "%s\n-\n" % umsg
+                                list_of_lines[fline] = "%s%s\n-\n" % (who, umsg)
 
                                 a_file = open("messages/conversation.txt", "w")
                                 a_file.writelines(list_of_lines)
@@ -778,7 +790,7 @@ def userconv(uuid, umsg):
                 addfile.write('\n%s' % uuid)
                 print('user doesnt exist, his been added')
                 # Write The Messages
-                addfile.write('\n%s\n-\n-\n-\n-\n-\n-' % umsg)
+                addfile.write('\n%s\n-\n-\n-\n-\n-\n-\n%s' % (umsg, who))
                 addfile.close()
         myFile.close()
 
